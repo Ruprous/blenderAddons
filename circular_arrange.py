@@ -7,74 +7,90 @@ bl_info = {
 import bpy
 import math
 
-class CircularArrangePanel(bpy.types.Panel):
-    """Creates a Panel in the Object properties window"""
+class OBJECT_OT_circular_arrange(bpy.types.Operator):
+    bl_idname = "object.circular_arrange"
     bl_label = "Circular Arrange"
-    bl_idname = "OBJECT_PT_circular_arrange"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, context):
+        scene = context.scene
+        count = scene.circular_arrange_count
+        radius = scene.circular_arrange_radius
+        merge = scene.circular_arrange_merge
+        
+        obj = context.active_object
+        if obj is None:
+            self.report({'WARNING'}, "No active object selected")
+            return {'CANCELLED'}
+        
+        original_location = obj.location.copy()
+        duplicated_objects = []
+        
+        for i in range(count):
+            angle = 2 * math.pi * i / count
+            x = radius * math.cos(angle) + original_location.x
+            y = radius * math.sin(angle) + original_location.y
+            bpy.ops.object.duplicate()
+            obj = context.active_object
+            obj.location = (x, y, original_location.z)
+            duplicated_objects.append(obj)
+        
+        if merge:
+            bpy.ops.object.select_all(action='DESELECT')
+            for obj in duplicated_objects:
+                obj.select_set(True)
+            bpy.context.view_layer.objects.active = duplicated_objects[0]
+            bpy.ops.object.join()
+            bpy.ops.object.origin_set(type='ORIGIN_CENTER_OF_MASS', center='BOUNDS')
+
+        return {'FINISHED'}
+
+class VIEW3D_PT_circular_arrange_panel(bpy.types.Panel):
+    bl_label = "Circular Arrange"
+    bl_idname = "VIEW3D_PT_circular_arrange_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Tools'
+    bl_category = 'Tool'
 
     def draw(self, context):
         layout = self.layout
-
-        # 半径の設定
-        layout.prop(context.scene, "circular_radius")
-
-        # ボタン
+        scene = context.scene
+        layout.prop(scene, "circular_arrange_count")
+        layout.prop(scene, "circular_arrange_radius")
+        layout.prop(scene, "circular_arrange_merge")
         layout.operator("object.circular_arrange")
 
-
-class OBJECT_OT_circular_arrange(bpy.types.Operator):
-    """Arrange selected objects in a circle"""
-    bl_idname = "object.circular_arrange"
-    bl_label = "Circular Arrange"
-
-    def execute(self, context):
-        # 選択したオブジェクトを取得
-        selected_objects = context.selected_objects
-        num_objects = len(selected_objects)
-        
-        if num_objects < 1:
-            self.report({'WARNING'}, "No objects selected")
-            return {'CANCELLED'}
-        
-        radius = context.scene.circular_radius
-        angle_increment = 2 * math.pi / num_objects
-        
-        for i, obj in enumerate(selected_objects):
-            angle = i * angle_increment
-            obj.location.x = math.cos(angle) * radius
-            obj.location.y = math.sin(angle) * radius
-
-        self.report({'INFO'}, "Objects arranged in a circle")
-        return {'FINISHED'}
-
-classes = (
-    CircularArrangePanel,
-    OBJECT_OT_circular_arrange
-)
-
 def register():
-    for cls in classes:
-        bpy.utils.register_class(cls)
-    
-    bpy.types.Scene.circular_radius = bpy.props.FloatProperty(
+    bpy.utils.register_class(OBJECT_OT_circular_arrange)
+    bpy.utils.register_class(VIEW3D_PT_circular_arrange_panel)
+    bpy.types.Scene.circular_arrange_count = bpy.props.IntProperty(
+        name="Count",
+        description="Number of duplicates",
+        default=8,
+        min=2,
+    )
+    bpy.types.Scene.circular_arrange_radius = bpy.props.FloatProperty(
         name="Radius",
-        description="Radius of the circular arrangement",
-        default=5.0,
+        description="Radius of the circle",
+        default=2.0,
         min=0.1,
-        max=100.0
+    )
+    bpy.types.Scene.circular_arrange_merge = bpy.props.BoolProperty(
+        name="Merge Objects",
+        description="Merge duplicated objects into one",
+        default=False,
     )
 
 def unregister():
-    for cls in classes:
-        bpy.utils.unregister_class(cls)
-    
-    del bpy.types.Scene.circular_radius
+    bpy.utils.unregister_class(OBJECT_OT_circular_arrange)
+    bpy.utils.unregister_class(VIEW3D_PT_circular_arrange_panel)
+    del bpy.types.Scene.circular_arrange_count
+    del bpy.types.Scene.circular_arrange_radius
+    del bpy.types.Scene.circular_arrange_merge
 
 if __name__ == "__main__":
     register()
+
 
 #made by Ruprous
 #X/Twitter:@Ruprous
