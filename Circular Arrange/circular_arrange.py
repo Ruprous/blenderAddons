@@ -24,6 +24,8 @@ class OBJECT_OT_circular_arrange(bpy.types.Operator):
             return {'CANCELLED'}
         
         original_location = obj.location.copy()
+        original_rotation = obj.rotation_euler.copy()  # 中心オブジェクトの回転を保持
+        
         duplicated_objects = []
         
         for i in range(count):
@@ -34,7 +36,11 @@ class OBJECT_OT_circular_arrange(bpy.types.Operator):
             obj = context.active_object
             obj.location = (x, y, original_location.z)
             duplicated_objects.append(obj)
-        
+            
+            # 中心オブジェクトからの相対的な角度を計算し、複製オブジェクトの回転を調整する
+            relative_angle = angle - math.pi
+            obj.rotation_euler = (original_rotation.x, original_rotation.y, original_rotation.z + relative_angle)
+
         if merge:
             bpy.ops.object.select_all(action='DESELECT')
             for obj in duplicated_objects:
@@ -90,7 +96,6 @@ def unregister():
 
 if __name__ == "__main__":
     register()
-
 
 #made by Ruprous
 #X/Twitter:@Ruprous
