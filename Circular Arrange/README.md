@@ -1,4 +1,4 @@
-# Circular Arrange
+# Circular Arrange version2.8以上対応
 
 Circular Arrangeは、オブジェクトを選択し数と半径を指定して円形に配置できるアドオンです。`circular_arrange.py`をプリファレンスからインストールし、チェックボックスで有効化すると使えるようになります。
 
