@@ -1,3 +1,5 @@
+#version 1.2
+
 bl_info = {
     "name": "Circular Arrange",
     "blender": (2, 80, 0),
