@@ -101,7 +101,8 @@ def register():
     bpy.utils.register_class(DuplicateAndRandomizePanel)
     
     bpy.types.Scene.duplicate_and_randomize_count = bpy.props.IntProperty(
-        name="Number of Duplicates",
+        name="Count",
+        description="Number of duplicates",
         default=1,
         min=1
     )
@@ -111,8 +112,9 @@ def register():
         min=0.0
     )
     bpy.types.Scene.duplicate_and_randomize_join = bpy.props.BoolProperty(
-        name="Join Duplicates",
-        default=False
+        name="Merge Objects",
+        description="Merge duplicated objects into one",
+        default=False,
     )
     bpy.types.Scene.duplicate_and_randomize_random_scale = bpy.props.BoolProperty(
         name="Randomize Scale",
