@@ -1,8 +1,13 @@
-#Circular Arrange v1.2 / blender version 2.8.0 or higher
 bl_info = {
     "name": "Circular Arrange",
     "blender": (2, 80, 0),
     "category": "Object",
+    "version": (1, 2, 1),
+    "author": "Ruprous",
+    "location": "View3D > Sidebar > Tool Tab",
+    "doc_url": "https://github.com/Ruprous/blenderAddons"
+    #made by Ruprous
+    #X/Twitter:@Ruprous
 }
 
 import bpy
@@ -97,6 +102,3 @@ def unregister():
 
 if __name__ == "__main__":
     register()
-
-#made by Ruprous
-#X/Twitter:@Ruprous
