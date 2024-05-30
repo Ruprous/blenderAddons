@@ -2,7 +2,7 @@ bl_info = {
     "name": "Duplicate Randomize",
     "blender": (2, 80, 0),
     "category": "Object",
-    "version": (1, 0, 0),
+    "version": (1, 1, 0),
     "author": "Ruprous",
     "location": "View3D > Sidebar > Tool Tab",
     "doc_url": "https://github.com/Ruprous/blenderAddons"
@@ -55,10 +55,12 @@ class DuplicateAndRandomize(bpy.types.Operator):
                 original_location.z + random.uniform(-self.range, self.range)
             )
             if self.random_scale:
+                # オブジェクトの比率を維持してランダムにスケール変更
+                scale_factor = random.uniform(0.5, 1.5)
                 new_obj.scale = (
-                    random.uniform(0.5, 1.5),
-                    random.uniform(0.5, 1.5),
-                    random.uniform(0.5, 1.5)
+                    scale_factor * obj.scale.x,
+                    scale_factor * obj.scale.y,
+                    scale_factor * obj.scale.z
                 )
             context.collection.objects.link(new_obj)
             new_objects.append(new_obj)
@@ -99,8 +101,7 @@ def register():
     bpy.utils.register_class(DuplicateAndRandomizePanel)
     
     bpy.types.Scene.duplicate_and_randomize_count = bpy.props.IntProperty(
-        name="Count",
-        description="Number of duplicates",
+        name="Number of Duplicates",
         default=1,
         min=1
     )
@@ -110,9 +111,8 @@ def register():
         min=0.0
     )
     bpy.types.Scene.duplicate_and_randomize_join = bpy.props.BoolProperty(
-        name="Merge Objects",
-        description="Merge duplicated objects into one",
-        default=False,
+        name="Join Duplicates",
+        default=False
     )
     bpy.types.Scene.duplicate_and_randomize_random_scale = bpy.props.BoolProperty(
         name="Randomize Scale",
