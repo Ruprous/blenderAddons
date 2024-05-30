@@ -9,3 +9,6 @@ Circular Arrangeは、オブジェクトを選択し数と半径を指定して�
 3. **Merge Object**にチェックを入れると、円形配置されたオブジェクトを統合します。
 
 ![使用例](https://i.ibb.co/rvhKPk0/sampleimage01.png)
+こんなのが作れるよ↓↓
+![使用例](https://i.ibb.co/dbbmqg4/udon-cypher.png)
+
