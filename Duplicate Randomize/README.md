@@ -1,4 +1,4 @@
-# Duplicate Randomize v1.0.0 / blender version 2.8.0 or higher
+# Duplicate Randomize v1.1.1 / blender version 2.8.0 or higher
 
 Duplicate Randomizeは、オブジェクトを選択し数と範囲を指定して範囲内にランダムに配置できるアドオンです。`Duplicate_Randomize.py`をプリファレンスからインストールし、チェックボックスで有効化すると使えるようになります。
 
