@@ -6,3 +6,5 @@
 > You can freely download and use the .py Addon here.
 > Please feel free to redistribute. It is also OK to modify and use .py. It's okay if you don't call out to me, but I'd be happy if you did.
 > Please raise an issue if you have any problems.
+>
+> 使用しているAddonの関係で、3.0での動作確認しかしていないので悪しからず。2.8以上だったら基本的に動くはず。
