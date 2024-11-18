@@ -14,10 +14,11 @@ Please raise an issue if you have any problems.
 
 ---
 
-## Notes on Version Compatibility / バージョン互換性について
+### Notes on Version Compatibility / バージョン互換性について
 
 - **The add-ons have only been tested on Blender 3.0 due to dependencies.**
 **使用しているAddonの関係で、3.0での動作確認しかしていません。**
 - **They should generally work on Blender 2.8 or later.**
 **2.8以上であれば、基本的に動作するはずです。**
+  
   
