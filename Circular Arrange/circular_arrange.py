@@ -8,6 +8,7 @@ bl_info = {
     "doc_url": "https://github.com/Ruprous/blenderAddons"
     #made by Ruprous
     #X/Twitter:@Ruprous
+    #Copyright (c) 2024 Ruprous
 }
 
 import bpy
